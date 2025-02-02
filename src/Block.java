@@ -1,4 +1,5 @@
 import java.util.Date;
+
 public class Block {
     public String hash;
     public String previousHash;
@@ -8,5 +9,11 @@ public class Block {
         this.data=data;
         this.previousHash=previousHash;
         this.timeStamp=new Date().getTime();
+        this.hash = calculateHash();
     }
+    public String calculateHash(){
+        String calculatedhash=StringUtil.applysha256(previousHash+Long.toString(timeStamp)+data);
+        return calculatedhash;
+    }
+
 }
