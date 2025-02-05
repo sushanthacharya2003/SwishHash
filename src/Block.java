@@ -18,25 +18,12 @@ public class Block {
         String calculatedhash = StringUtil.applysha256(previousHash + Long.toString(timeStamp) + data);
         return calculatedhash;
     }
-
-    public static Boolean isChainValid() {
-        Block currentBlock;
-        Block previousBlock;
-        for (int i = 1; i < blockchain.size(); i++) {
-            currentBlock = blockchain.get(i);
-            previousBlock = blockchain.get(i - 1);
-            //compare registered hash and calculated hash:
-            if(!currentBlock.hash.equals(currentBlock.calculateHash()) ){
-                System.out.println("Current Hashes not equal");
-                return false;
-            }
-            //compare previous hash and registered previous hash
-            if(!previousBlock.hash.equals(currentBlock.previousHash) ) {
-                System.out.println("Previous Hashes not equal");
-                return false;
-
-            }
-    }
-    return true;
+    public void mineBlock(int difficulty) {
+        String target = new String(new char[difficulty]).replace('\0', '0'); //Create a string with difficulty * "0"
+        while(!hash.substring( 0, difficulty).equals(target)) {
+            nonce ++;
+            hash = calculateHash();
+        }
+        System.out.println("Block Mined!!! : " + hash);
     }
 }
